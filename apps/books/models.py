@@ -3,8 +3,6 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth import get_user_model
 
-User = get_user_model()
-
 
 # Create your models here.
 class Category(models.Model):
@@ -27,14 +25,14 @@ class Book(models.Model):
     """
     name = models.CharField(max_length=15, verbose_name='图书名称')
     author = models.CharField(max_length=20, verbose_name='作者')
-    cover = models.ImageField(upload_to='books/cover', max_length=100, verbose_name='图书封面')
+    cover = models.ImageField(upload_to='books/cover',  blank=True, max_length=100, verbose_name='图书封面')
     category = models.ForeignKey(Category, related_name='books', verbose_name='类别')
     brief = models.TextField(default='', blank=True, verbose_name='图书简介')
     word_count = models.IntegerField(default=0, verbose_name='总字数')
-    copyright = models.CharField(max_length=100, verbose_name='版权信息')
-    rank = models.FloatField(default=0, verbose_name='评分')
+    copyright = models.CharField(max_length=100, blank=True, verbose_name='版权信息')
+    rank = models.FloatField(default=0, blank=True, verbose_name='评分')
     price = models.FloatField(default=0, verbose_name='价格')
-    read_count = models.IntegerField(default=0, verbose_name='阅读人数')
+    read_count = models.IntegerField(default=0, blank=True, verbose_name='阅读人数')
     is_new = models.BooleanField(default=False, verbose_name='是否新书')
     is_index = models.BooleanField(default=False, verbose_name='是否在首页显示')
     is_end = models.BooleanField(default=False, verbose_name='是否完结')
@@ -72,6 +70,9 @@ class BookMark(models.Model):
     """
     书签
     """
+
+    User = get_user_model()
+
     user = models.ForeignKey(User, related_name='my_bookmarks', verbose_name='用户')
     book = models.ForeignKey(Book, related_name='bookmarks', verbose_name='图书')
     #chapter = models.ForeignKey(Chapter, )
@@ -90,6 +91,9 @@ class CollectionBook(models.Model):
     """
     藏书
     """
+    # 因为user中引用了books中的一些模型，如果在全局声明会导致循环导入，所以把User的引用放在这里延迟导入
+    User = get_user_model()
+
     book = models.OneToOneField(Book, verbose_name='图书')
     user = models.ForeignKey(User, related_name='my_books')
     read_time = models.FloatField(default=0, verbose_name='阅读时长')

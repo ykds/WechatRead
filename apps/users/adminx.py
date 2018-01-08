@@ -1,4 +1,4 @@
-from users.models import UserProfile
+from users.models import UserProfile, Follow, Account, DealLog, Purchased
 
 from xadmin import views
 import xadmin
@@ -21,5 +21,27 @@ class UserProfileAdmin:
     readonly_fields = ['read_time', 'likes']
 
 
+class FollowAdmin:
+    list_display = ['followed', 'following', 'follow_time']
+
+
+class AccountAdmin:
+    list_display = ['user', 'balance', 'present', 'recharge']
+
+
+class PurchasedAdmin:
+    list_display = ['user', 'book', 'chapter', 'buy_time']
+    list_filter = ['user', 'book', 'chapter']
+
+
+class DealLogAdmin:
+    list_display = ['user', 'book', 'chapter', 'buy_type', 'use_currency', 'money']
+    list_filter = ['user', 'book', 'chapter']
+
+
 xadmin.site.register(views.BaseAdminView, BaseSetting)
 xadmin.site.register(views.CommAdminView, GlobalSetting)
+xadmin.site.register(Follow, FollowAdmin)
+xadmin.site.register(Account, AccountAdmin)
+xadmin.site.register(Purchased, PurchasedAdmin)
+xadmin.site.register(DealLog, DealLogAdmin)

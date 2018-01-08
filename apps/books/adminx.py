@@ -3,6 +3,10 @@ from books.models import Chapter, Category, CollectionBook, Book, BookMark
 import xadmin
 
 
+class ChapterInline:
+    model = Chapter
+    style = 'tab'
+
 class CategoryAdmin:
     list_display = ['name']
 
@@ -14,6 +18,7 @@ class BookAdmin:
     list_filter = ['author', 'category', 'rank', 'is_new', 'is_index', 'is_end']
     list_editable = ['is_new', 'is_index', 'is_end']
     readonly_fileds = ['read_count']
+    inlines = [ChapterInline]
 
 
 class ChapterAdmin:

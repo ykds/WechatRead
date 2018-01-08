@@ -14,8 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+from django.conf.urls.static import static
 from rest_framework.documentation import include_docs_urls
 
+from .settings import MEDIA_ROOT, MEDIA_URL
 
 import xadmin
 
@@ -23,5 +25,4 @@ urlpatterns = [
     url('^xadmin/', xadmin.site.urls),
     url('^doc/', include_docs_urls(title='微信读书')),
     url('^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-
-]
+] + static(MEDIA_URL, document_root=MEDIA_ROOT)

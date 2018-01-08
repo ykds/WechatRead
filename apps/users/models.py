@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -23,3 +25,90 @@ class UserProfile(AbstractUser):
     class Meta:
         verbose_name = '用户'
         verbose_name_plural = verbose_name
+
+
+class Follow(models.Model):
+    """
+    用户关注
+    """
+    followed = models.ForeignKey(UserProfile, related_name='followed', verbose_name='被关注者')
+    following = models.ForeignKey(UserProfile, related_name='following', verbose_name='关注者')
+    follow_time = models.DateTimeField(default=datetime.now, verbose_name='关注时间')
+
+    def __str__(self):
+        return self.following.nickname
+
+    class Meta:
+        verbose_name = '关注'
+        verbose_name_plural = verbose_name
+
+
+class Account(models.Model):
+    """
+    用户账户
+    """
+    user = models.ForeignKey(UserProfile, verbose_name='用户')
+    balance = models.FloatField(default=0, verbose_name='余额')
+    present = models.FloatField(default=0, verbose_name='赠币')
+    recharge = models.FloatField(default=0, verbose_name='充值币')
+
+    def __str__(self):
+        return self.user.nickname
+
+    class Meta:
+        verbose_name = '用户账户'
+        verbose_name_plural = verbose_name
+
+
+class Purchased(models.Model):
+    """
+    用户已购内容
+    """
+
+    from books.models import Chapter, Book
+
+    user = models.ForeignKey(UserProfile, verbose_name='用户')
+    book = models.ForeignKey(Book, verbose_name='图书')
+    chapter = models.ForeignKey(Chapter, verbose_name='章节')
+    buy_time = models.DateTimeField(default=datetime.now, verbose_name='购买时间')
+
+    def __str__(self):
+        return self.user.nickname + "  " + self.book.name
+
+    class Meta:
+        verbose_name = '已购内容'
+        verbose_name_plural = verbose_name
+
+
+class DealLog(models.Model):
+    """
+    交易记录
+    """
+
+    from books.models import Book, Chapter
+
+    BUY_TYPE = (
+        (1, '支付'),
+        (2, '收入')
+    )
+
+    CURRENCY = (
+        (1, '充值币'),
+        (2, '赠币')
+    )
+
+    user = models.ForeignKey(UserProfile, verbose_name='用户')
+    book = models.ForeignKey(Book, verbose_name='图书')
+    chapter = models.ForeignKey(Chapter, verbose_name='章节')
+    buy_time = models.DateTimeField(default=datetime.now, verbose_name='购买时间')
+    buy_type = models.IntegerField(choices=BUY_TYPE, verbose_name='购买类型')
+    use_currency = models.IntegerField(choices=CURRENCY, verbose_name='使用货币')
+    money = models.FloatField(default=0, verbose_name='金额')
+
+    def __str__(self):
+        return self.user.nickname
+
+    class Meta:
+        verbose_name = '交易记录'
+        verbose_name_plural = verbose_name
+

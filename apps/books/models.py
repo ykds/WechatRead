@@ -3,8 +3,6 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth import get_user_model
 
-User = get_user_model()
-
 
 # Create your models here.
 class Category(models.Model):
@@ -72,6 +70,9 @@ class BookMark(models.Model):
     """
     书签
     """
+
+    User = get_user_model()
+
     user = models.ForeignKey(User, related_name='my_bookmarks', verbose_name='用户')
     book = models.ForeignKey(Book, related_name='bookmarks', verbose_name='图书')
     #chapter = models.ForeignKey(Chapter, )
@@ -90,6 +91,9 @@ class CollectionBook(models.Model):
     """
     藏书
     """
+    # 因为user中引用了books中的一些模型，如果在全局声明会导致循环导入，所以把User的引用放在这里延迟导入
+    User = get_user_model()
+
     book = models.OneToOneField(Book, verbose_name='图书')
     user = models.ForeignKey(User, related_name='my_books')
     read_time = models.FloatField(default=0, verbose_name='阅读时长')

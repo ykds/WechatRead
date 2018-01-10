@@ -9,7 +9,15 @@ class Category(models.Model):
     """
     图书分类
     """
-    name = models.CharField(max_length=15, verbose_name='类别')
+
+    CATEGORY_TYPE = (
+        (1, '一级类别'),
+        (2, '二级类别')
+    )
+
+    name = models.CharField(max_length=15, verbose_name='类别', unique=True)
+    category_type = models.IntegerField(choices=CATEGORY_TYPE, null=True, blank=True, verbose_name='类别级别')
+    parent_category = models.ForeignKey('self', related_name='sub_cat', verbose_name='子类别', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -26,7 +34,7 @@ class Book(models.Model):
     name = models.CharField(max_length=15, verbose_name='图书名称')
     author = models.CharField(max_length=20, verbose_name='作者')
     cover = models.ImageField(upload_to='books/cover',  blank=True, max_length=100, verbose_name='图书封面')
-    category = models.ForeignKey(Category, related_name='books', verbose_name='类别')
+    category = models.ForeignKey(Category, related_name='books', default='', verbose_name='类别')
     brief = models.TextField(default='', blank=True, verbose_name='图书简介')
     word_count = models.IntegerField(default=0, verbose_name='总字数')
     copyright = models.CharField(max_length=100, blank=True, verbose_name='版权信息')

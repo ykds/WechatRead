@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'books',
     'users',
+    'rest_framework',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -78,15 +80,15 @@ WSGI_APPLICATION = 'wechatRead.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'wechat',
-#         'USER': 'root',
-#         'PASSWORD': 'teamosh713',
-#         'HOST': 'localhost',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+    }
+}
 
 
 # Password validation
@@ -126,6 +128,8 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 

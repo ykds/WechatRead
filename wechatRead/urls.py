@@ -16,8 +16,11 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 from rest_framework.documentation import include_docs_urls
+from rest_framework_jwt.views import obtain_jwt_token
 
 from .settings import MEDIA_ROOT, MEDIA_URL
+from books.urls import route as b_route
+#from users.urls import route as u_route
 
 import xadmin
 
@@ -25,4 +28,7 @@ urlpatterns = [
     url('^xadmin/', xadmin.site.urls),
     url('^doc/', include_docs_urls(title='微信读书')),
     url('^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^', include(b_route.urls)),
+    url(r'^login/', obtain_jwt_token),
+    #url(r'^', include(u_route.urls)),
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)

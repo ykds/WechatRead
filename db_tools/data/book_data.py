@@ -11,7 +11,7 @@ row_data = [
         "price": 14,
         "read_count": 5,
         "is_new": True,
-        "is_index": True,
+        "is_index": False,
         "is_end": True
     },
 {
@@ -25,9 +25,9 @@ row_data = [
         "rank": 8.7,
         "price": 25,
         "read_count": 22,
-        "is_new": True,
+        "is_new": False,
         "is_index": True,
-        "is_end": True
+        "is_end": False
     },
 {
         "name": "白夜行",
@@ -40,7 +40,7 @@ row_data = [
         "rank":0,
         "price": 0,
         "read_count": 0,
-        "is_new": True,
+        "is_new": False,
         "is_index": True,
         "is_end": True
     },
@@ -57,7 +57,7 @@ row_data = [
         "read_count": 0,
         "is_new": True,
         "is_index": True,
-        "is_end": True
+        "is_end": False
     },
 {
         "name": "黄金时代",
@@ -70,7 +70,7 @@ row_data = [
         "rank":0,
         "price": 0,
         "read_count": 0,
-        "is_new": True,
+        "is_new": False,
         "is_index": True,
         "is_end": True
     },
@@ -86,7 +86,7 @@ row_data = [
         "price": 0,
         "read_count": 0,
         "is_new": True,
-        "is_index": True,
+        "is_index": False,
         "is_end": True
     },
 {
@@ -102,7 +102,7 @@ row_data = [
         "read_count": 0,
         "is_new": True,
         "is_index": True,
-        "is_end": True
+        "is_end": False
     },
 {
         "name": "从零开始做运营",
@@ -117,7 +117,7 @@ row_data = [
         "read_count": 0,
         "is_new": True,
         "is_index": True,
-        "is_end": True
+        "is_end": False
     },
 {
         "name": "干法",
@@ -130,7 +130,7 @@ row_data = [
         "rank":0,
         "price": 0,
         "read_count": 0,
-        "is_new": True,
+        "is_new": False,
         "is_index": True,
         "is_end": True
     },
@@ -145,8 +145,8 @@ row_data = [
         "rank":0,
         "price": 0,
         "read_count": 0,
-        "is_new": True,
-        "is_index": True,
+        "is_new": False,
+        "is_index": False,
         "is_end": True
     },
 {
@@ -161,8 +161,8 @@ row_data = [
         "price": 0,
         "read_count": 0,
         "is_new": True,
-        "is_index": True,
-        "is_end": True
+        "is_index": False,
+        "is_end": False
     },
 {
         "name": "快速阅读术",
@@ -176,7 +176,7 @@ row_data = [
         "price": 0,
         "read_count": 0,
         "is_new": True,
-        "is_index": True,
+        "is_index": False,
         "is_end": True
     },
 {
@@ -190,9 +190,9 @@ row_data = [
         "rank":0,
         "price": 0,
         "read_count": 0,
-        "is_new": True,
+        "is_new": False,
         "is_index": True,
-        "is_end": True
+        "is_end": False
     },
 {
         "name": "幻夜",
@@ -205,7 +205,7 @@ row_data = [
         "rank":0,
         "price": 0,
         "read_count": 0,
-        "is_new": True,
+        "is_new": False,
         "is_index": True,
         "is_end": True
     },
@@ -222,7 +222,7 @@ row_data = [
         "read_count": 0,
         "is_new": True,
         "is_index": True,
-        "is_end": True
+        "is_end": False
     },
 {
         "name": "侯府长媳",
@@ -236,8 +236,8 @@ row_data = [
         "price": 0,
         "read_count": 0,
         "is_new": True,
-        "is_index": True,
-        "is_end": True
+        "is_index": False,
+        "is_end": False
     },
 {
         "name": "BeJson",
@@ -252,7 +252,7 @@ row_data = [
         "read_count": 0,
         "is_new": True,
         "is_index": True,
-        "is_end": True
+        "is_end": False
     },
 {
         "name": "BeJson",
@@ -267,7 +267,7 @@ row_data = [
         "read_count": 0,
         "is_new": True,
         "is_index": True,
-        "is_end": True
+        "is_end": False
     },
 {
         "name": "BeJson",
@@ -282,7 +282,7 @@ row_data = [
         "read_count": 0,
         "is_new": True,
         "is_index": True,
-        "is_end": True
+        "is_end": False
     },
 {
         "name": "BeJson",
@@ -297,6 +297,6 @@ row_data = [
         "read_count": 0,
         "is_new": True,
         "is_index": True,
-        "is_end": True
+        "is_end": False
     },
 ]

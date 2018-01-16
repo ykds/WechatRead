@@ -39,5 +39,5 @@ class CollectionBookAdmin:
 xadmin.site.register(Category, CategoryAdmin)
 xadmin.site.register(Chapter, ChapterAdmin)
 xadmin.site.register(CollectionBook, CollectionBookAdmin)
-xadmin.site.register(BookMark, BookAdmin)
+xadmin.site.register(BookMark, BookMarkAdmin)
 xadmin.site.register(Book, BookAdmin)

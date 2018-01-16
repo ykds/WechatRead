@@ -7,8 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import Book, Category, CollectionBook, Chapter, BookMark
 from .serializers import BookSerializer, CategorySerializer, CollectionBookSerializer, ChapterSerializer, BookMarkSerializer
-from .filters import BookFilter
-from .permissions import IsOwnerOrReadOnly
+from .filters import BookFilter, ChapterFilter, BookMarkFilter
+from .permissions import IsOwnerOrReadOnly, IsPubOrHasPurchased
 
 # Create your views here.
 
@@ -44,3 +44,38 @@ class CollectionBookViewSet(viewsets.ModelViewSet):
     serializer_class = CollectionBookSerializer
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+
+
+class ChapterViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.RetrieveModelMixin):
+    """
+    list:
+        获取所有章节
+    retrieve:
+        获取其中一个章节
+    """
+
+    queryset = Chapter.objects.all()
+    serializer_class = ChapterSerializer
+    filter_backends = (DjangoFilterBackend, )
+    filter_class = ChapterFilter
+    permission_classes = (IsPubOrHasPurchased, )
+
+
+class BookMarkViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.DestroyModelMixin):
+    """
+    create:
+        增加书签
+    list:
+        获取所有书签
+    retrieve:
+        获取某一个书签
+    destroy:
+        删除一个书签
+    """
+
+    queryset = BookMark.objects.all()
+    serializer_class = BookMarkSerializer
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = BookMarkFilter

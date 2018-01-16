@@ -1,4 +1,4 @@
-from users.models import UserProfile, Follow, Account, DealLog, Purchased
+from users.models import UserProfile, Follow, Account, DealLog, Purchased, EmailVerifyCode
 
 from xadmin import views
 import xadmin
@@ -38,10 +38,14 @@ class DealLogAdmin:
     list_display = ['user', 'book', 'chapter', 'buy_type', 'use_currency', 'money']
     list_filter = ['user', 'book', 'chapter']
 
+class EmailVerifyAdmin:
+    list_display = ['code', 'email', 'send_type', 'add_time']
+
 
 xadmin.site.register(views.BaseAdminView, BaseSetting)
 xadmin.site.register(views.CommAdminView, GlobalSetting)
 xadmin.site.register(Follow, FollowAdmin)
 xadmin.site.register(Account, AccountAdmin)
+xadmin.site.register(EmailVerifyCode, EmailVerifyAdmin)
 xadmin.site.register(Purchased, PurchasedAdmin)
 xadmin.site.register(DealLog, DealLogAdmin)

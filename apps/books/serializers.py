@@ -23,24 +23,6 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class BookSerializer(serializers.ModelSerializer):
-    """
-    图书
-    """
-    category = serializers.CharField(read_only=True)
-
-    class Meta:
-        model = Book
-        fields = '__all__'
-        validators = [
-            UniqueTogetherValidator(
-                queryset=Book.objects.all(),
-                fields = ('name', 'author'),
-                message='已存在'
-            )
-        ]
-
-
 class ChapterSerializer(serializers.ModelSerializer):
     """
     章节
@@ -59,6 +41,29 @@ class ChapterSerializer(serializers.ModelSerializer):
         ]
 
 
+class BookSerializer(serializers.ModelSerializer):
+    """
+    图书
+    """
+    category = serializers.CharField(read_only=True)
+
+    chapters = ChapterSerializer(many=True)
+
+    class Meta:
+        model = Book
+        fields = '__all__'
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Book.objects.all(),
+                fields = ('name', 'author'),
+                message='已存在'
+            )
+        ]
+
+
+
+
+
 class BookMarkSerializer(serializers.ModelSerializer):
     """
     书签
@@ -68,9 +73,11 @@ class BookMarkSerializer(serializers.ModelSerializer):
         default=serializers.CurrentUserDefault(),
     )
 
+    book_name = serializers.CharField(source='book.name', read_only=True)
+
     class Meta:
         model = BookMark
-        fields = '__all__'
+        fields = ['id', 'book', 'book_name', 'desc', 'index', 'user']
 
 
 class CollectionBookSerializer(serializers.ModelSerializer):

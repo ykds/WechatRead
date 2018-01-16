@@ -20,7 +20,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 
 from .settings import MEDIA_ROOT, MEDIA_URL
 from books.urls import route as b_route
-#from users.urls import route as u_route
+from users.urls import route as u_route
 
 import xadmin
 
@@ -30,5 +30,5 @@ urlpatterns = [
     url('^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^', include(b_route.urls)),
     url(r'^login/', obtain_jwt_token),
-    #url(r'^', include(u_route.urls)),
+    url(r'^', include(u_route.urls)),
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)

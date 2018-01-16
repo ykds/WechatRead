@@ -112,3 +112,22 @@ class DealLog(models.Model):
         verbose_name = '交易记录'
         verbose_name_plural = verbose_name
 
+
+class EmailVerifyCode(models.Model):
+
+    SEND_TYPE = (
+        ('register', '注册'),
+        ('forger', ',忘记密码'),
+    )
+
+    code = models.CharField(max_length=6, verbose_name='验证码')
+    email = models.EmailField(max_length=50, verbose_name='邮箱')
+    send_type = models.CharField(max_length=10, choices=SEND_TYPE, verbose_name='发送类型')
+    add_time = models.DateTimeField(verbose_name='添加时间', default=datetime.now)
+
+    def __str__(self):
+        return self.code
+
+    class Meta:
+        verbose_name = '验证码'
+        verbose_name_plural = verbose_name

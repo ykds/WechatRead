@@ -7,8 +7,8 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 class UserProfile(AbstractUser):
 
-    nickname = models.CharField(max_length=15, verbose_name='昵称')
-    email = models.EmailField(verbose_name='邮箱', default='', blank=True)
+    nickname = models.CharField(max_length=50, verbose_name='昵称')
+    email = models.EmailField(max_length=50, verbose_name='邮箱', default='', blank=True)
     gender = models.CharField(choices=(('male', '男'), ('female', '女')), max_length=6, verbose_name='性别')
     introduce = models.TextField(max_length=100, verbose_name='自我介绍', default='', blank=True, null=True)
     image = models.ImageField(upload_to='users/images', max_length=100, verbose_name='头像')

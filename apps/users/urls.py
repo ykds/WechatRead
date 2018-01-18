@@ -5,3 +5,5 @@ from . import views
 
 route = DefaultRouter()
 route.register(r'code', views.VerifyCodeViewSet)
+route.register(r'users', views.UserViewSet)
+route.register(r'follow', views.FollowViewSet)

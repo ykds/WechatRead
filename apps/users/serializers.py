@@ -18,6 +18,13 @@ class FollowUserDetailSerializer(serializers.ModelSerializer):
         fields = ['id', 'nickname', 'gender', 'image', 'province', 'city']
 
 
+class FollowSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Follow
+        fields = '__all__'
+
+
 class FollowedSerializer(serializers.ModelSerializer):
 
     """序列化关注我的人的信息"""
@@ -111,4 +118,13 @@ class VerifyCodeSerializer(serializers.Serializer):
         return email
 
 
+class AccountSerializer(serializers.ModelSerializer):
 
+    """序列化用户账户信息"""
+
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    username = serializers.CharField(source='user.nickname', read_only=True)
+
+    class Meta:
+        model = Account
+        fields = ['id', 'user', 'username', 'balance', 'present', 'recharge']

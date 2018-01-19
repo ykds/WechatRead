@@ -9,9 +9,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 
-from .serializers import FollowedSerializer, FollowingSerializer, VerifyCodeSerializer, UserRegisterSerializer, UserDetailSerializer
-from .models import Follow, EmailVerifyCode
-from .permissions import IsOwnerOrReadOnly, ReadOnly
+from .serializers import FollowedSerializer, FollowingSerializer, VerifyCodeSerializer, UserRegisterSerializer, \
+    UserDetailSerializer, AccountSerializer, FollowSerializer
+from .models import Follow, EmailVerifyCode, Account
+from .permissions import IsOwnerOrReadOnly, ReadOnly, OwnerOnly
 from utils.send_email import send_email
 from .filters import FollowFilter
 
@@ -58,10 +59,12 @@ class FollowViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin, mixins.Des
 
     def get_serializer_class(self):
 
-        if self.request.query_params.get('followed', 'null') != 'null':
-            return FollowedSerializer
-        elif self.request.query_params.get('following', 'null') != 'null':
-            return FollowingSerializer
+        if self.request:
+            if self.request.query_params.get('followed', 'null') != 'null':
+                return FollowedSerializer
+            elif self.request.query_params.get('following', 'null') != 'null':
+                return FollowingSerializer
+        return FollowSerializer
 
     def get_permissions(self):
 
@@ -75,6 +78,20 @@ class UserViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin, mixins.Retri
 
     queryset = User.objects.all()
     authentication_classes = (JSONWebTokenAuthentication, )
+    #lookup_field = User.id
+
+    def create(self, request, *args, **kwargs):
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+
+        account = Account()
+        account.user = User.objects.filter(email=serializer.data['email'])[0]
+        account.save()
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def get_serializer_class(self):
 
@@ -94,3 +111,15 @@ class UserViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin, mixins.Retri
         return self.request.user
 
 
+class AccountViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin, mixins.ListModelMixin):
+
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializer
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    permission_classes = (IsAuthenticated, OwnerOnly)
+
+    def get_queryset(self):
+        return Account.objects.filter(user=self.request.user)
+
+    def get_object(self):
+        return Account.objects.get(user=self.request.user)

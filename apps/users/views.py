@@ -10,8 +10,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 
 from .serializers import FollowedSerializer, FollowingSerializer, VerifyCodeSerializer, UserRegisterSerializer, \
-    UserDetailSerializer, AccountSerializer, FollowSerializer
-from .models import Follow, EmailVerifyCode, Account
+    UserDetailSerializer, AccountSerializer, FollowSerializer, PurchasedSerializer
+from .models import Follow, EmailVerifyCode, Account, Purchased
 from .permissions import IsOwnerOrReadOnly, ReadOnly, OwnerOnly
 from utils.send_email import send_email
 from .filters import FollowFilter
@@ -123,3 +123,14 @@ class AccountViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin, mixins.Li
 
     def get_object(self):
         return Account.objects.get(user=self.request.user)
+
+
+class PurchasedViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin):
+
+    queryset = Purchased.objects.all()
+    serializer_class = PurchasedSerializer
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    permission_classes = (IsAuthenticated, OwnerOnly)
+
+    def get_queryset(self):
+        return Purchased.objects.filter(user=self.request.user)

@@ -128,3 +128,19 @@ class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = ['id', 'user', 'username', 'balance', 'present', 'recharge']
+
+
+class PurchasedSerializer(serializers.ModelSerializer):
+
+    """
+    序列化用户已购内容信息
+    """
+
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    username = serializers.CharField(source='user.nickname', read_only=True)
+    book_name = serializers.CharField(source='book.name', read_only=True)
+    chapter_name = serializers.CharField(source='chapter.name', read_only=True)
+
+    class Meta:
+        model = Purchased
+        fields = ['id', 'user', 'username', 'book', 'book_name', 'chapter', 'chapter_name']

@@ -69,7 +69,7 @@ class Purchased(models.Model):
 
     user = models.ForeignKey(UserProfile, verbose_name='用户')
     book = models.ForeignKey(Book, verbose_name='图书')
-    chapter = models.ForeignKey(Chapter, verbose_name='章节')
+    chapter = models.ForeignKey(Chapter, blank=True, null=True, verbose_name='章节')
     buy_time = models.DateTimeField(default=datetime.now, verbose_name='购买时间')
 
     def __str__(self):

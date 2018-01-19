@@ -104,7 +104,7 @@ class VerifyCodeSerializer(serializers.Serializer):
     请求验证码时验证邮箱
     """
 
-    email = serializers.EmailField(max_length=50)
+    email = serializers.EmailField(max_length=50, help_text='接收验证码的邮箱')
 
     def validate_email(self, email):
 
@@ -144,3 +144,23 @@ class PurchasedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Purchased
         fields = ['id', 'user', 'username', 'book', 'book_name', 'chapter', 'chapter_name']
+
+
+class DealLogSerializer(serializers.ModelSerializer):
+
+    """
+    序列化用户交易记录
+    """
+    import locale
+    locale.setlocale(locale.LC_CTYPE, 'chinese')
+
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    username = serializers.CharField(source='user.nickname', read_only=True)
+    book_name = serializers.CharField(source='book.name', read_only=True)
+    chapter_name = serializers.CharField(source='chapter.name', read_only=True)
+    buy_time = serializers.DateTimeField(read_only=True, format='%Y年%m月%d日')
+
+    class Meta:
+        model = DealLog
+        fields = ['user', 'username', 'book', 'book_name', 'chapter', 'chapter_name', 'buy_time', 'buy_type',
+                  'use_currency', 'money']

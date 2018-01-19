@@ -10,8 +10,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 
 from .serializers import FollowedSerializer, FollowingSerializer, VerifyCodeSerializer, UserRegisterSerializer, \
-    UserDetailSerializer, AccountSerializer, FollowSerializer, PurchasedSerializer
-from .models import Follow, EmailVerifyCode, Account, Purchased
+    UserDetailSerializer, AccountSerializer, FollowSerializer, PurchasedSerializer, DealLogSerializer
+from .models import Follow, EmailVerifyCode, Account, Purchased, DealLog
 from .permissions import IsOwnerOrReadOnly, ReadOnly, OwnerOnly
 from utils.send_email import send_email
 from .filters import FollowFilter
@@ -134,3 +134,15 @@ class PurchasedViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Cr
 
     def get_queryset(self):
         return Purchased.objects.filter(user=self.request.user)
+
+
+class DealLogViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin, mixins.ListModelMixin):
+
+    queryset = DealLog.objects.all()
+    serializer_class = DealLogSerializer
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    permission_classes = (IsAuthenticated, OwnerOnly)
+
+    def get_queryset(self):
+        return DealLog.objects.filter(user=self.request.user)
+
